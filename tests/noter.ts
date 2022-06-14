@@ -27,4 +27,16 @@ describe("noter", () => {
       assert.strictEqual(newNote.content, contentOfNewNote)
       assert.strictEqual(newNote.user.toBase58(), provider.wallet.publicKey.toBase58())
   });
+
+    it("can delete a note", async () => {
+        const accounts = {
+            note: note.publicKey,
+            user: provider.wallet.publicKey,
+        }
+        await program.methods.deleteNote().accounts(accounts).rpc()
+
+        let deleteNote = await program.account.note.fetchNullable(note.publicKey)
+
+        assert.ok(deleteNote == null)
+    });
 });

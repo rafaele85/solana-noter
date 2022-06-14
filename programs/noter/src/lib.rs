@@ -14,7 +14,10 @@ pub mod noter {
         note.user = *user.key;
 
         Ok(())
+    }
 
+    pub fn delete_note(ctx: Context<DeleteNote>) -> Result<()> {
+        Ok(())
     }
 }
 
@@ -27,6 +30,15 @@ pub struct CreateNote<'info> {
     pub user: Signer<'info>,
 
     pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct DeleteNote<'info> {
+    #[account(mut, has_one = user, close = user)]
+    pub note: Account<'info, Note>,
+
+    #[account(mut)]
+    pub user: Signer<'info>,
 }
 
 #[account]
